@@ -1,9 +1,13 @@
 package fabiomarras.u5w2d5.controllers;
 
 import fabiomarras.u5w2d5.entities.User;
+import fabiomarras.u5w2d5.exceptions.BadRequestException;
+import fabiomarras.u5w2d5.payloads.NewUserRequestDTO;
 import fabiomarras.u5w2d5.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,8 +32,12 @@ public class UserController {
     }
 
     @PostMapping("")
-    public User saveNewUser(@RequestBody User body){
-        return userService.save(body);
+    public User saveNewUser(@RequestBody @Validated NewUserRequestDTO body, BindingResult validation) throws IOException{
+        if (validation.hasErrors()) {
+            throw new BadRequestException(validation.getAllErrors());
+        } else {
+            return userService.save(body);
+        }
     }
 
     @PutMapping("/{id}")

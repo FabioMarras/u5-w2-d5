@@ -10,6 +10,7 @@ public record NewDispositivoRequestDTO(
         @NotNull(message = "Devi inserire obbligatoriamente il tipo")
                 @Size(min = 2, message = "Scrivi più di 2 caratteri")
         String type,
+        @NotNull
         StatusDispositivi  statusDispositivi,
         List<String> errorsList) {
 }

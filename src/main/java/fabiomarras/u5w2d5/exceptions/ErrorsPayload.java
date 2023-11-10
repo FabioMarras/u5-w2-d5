@@ -10,5 +10,6 @@ import java.util.Date;
 @Getter
 public class ErrorsPayload {
     private String message;
+    private int httpStatus;
     private Date timestamp;
 }

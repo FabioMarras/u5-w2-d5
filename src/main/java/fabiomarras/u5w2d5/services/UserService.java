@@ -6,6 +6,7 @@ import fabiomarras.u5w2d5.entities.Dispositivo;
 import fabiomarras.u5w2d5.entities.User;
 import fabiomarras.u5w2d5.exceptions.NotFoundException;
 import fabiomarras.u5w2d5.exceptions.SameIdException;
+import fabiomarras.u5w2d5.payloads.NewUserRequestDTO;
 import fabiomarras.u5w2d5.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -44,8 +46,14 @@ public class UserService {
     }
 
     //POST /user - crea uno user
-    public User save(User body){
-            return userRepository.save(body);
+    public User save(@RequestBody NewUserRequestDTO body){
+            User newUser = new User();
+            newUser.setUsername(body.username());
+            newUser.setName(body.name());
+            newUser.setLastName(body.lastName());
+            newUser.setEmail(body.email());
+            User saveUser = userRepository.save(newUser);
+            return saveUser;
     }
 
     //PUT /user/id - modifica uno user specifico
