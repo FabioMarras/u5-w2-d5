@@ -3,6 +3,7 @@ package fabiomarras.u5w2d5.controllers;
 import fabiomarras.u5w2d5.entities.User;
 import fabiomarras.u5w2d5.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,7 +18,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("")
-    public List<User> getAllUser(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
+    public Page<User> getAllUser(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
         return userService.getAllUser(page, size, orderBy);
     }
 

@@ -39,8 +39,8 @@ public class DispositiviController {
     }
 
     @PutMapping("/{id}")
-    public Dispositivo findByIdAndUpdate(@PathVariable int id, @RequestBody Dispositivo body){
-        return dispositiviService.findByIdAndUpdate(id, body);
+    public Dispositivo findByIdAndUpdate(@PathVariable int id, @RequestBody Dispositivo body,@RequestParam("userId") int userId){
+        return dispositiviService.findByIdAndUpdate(id, body, userId);
     }
     @DeleteMapping("/{id}")
     public void findByIdAndDelete(@PathVariable int id){

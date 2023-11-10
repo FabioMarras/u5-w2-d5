@@ -2,10 +2,13 @@ package fabiomarras.u5w2d5.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import fabiomarras.u5w2d5.entities.Dispositivo;
 import fabiomarras.u5w2d5.entities.User;
 import fabiomarras.u5w2d5.exceptions.NotFoundException;
+import fabiomarras.u5w2d5.exceptions.SameIdException;
 import fabiomarras.u5w2d5.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,9 +33,9 @@ public class UserService {
     private Cloudinary cloudinary;
 
     //GET /user per avere una la lista degli user
-        public List<User> getAllUser(int page, int size, String orderBy){
+        public Page<User> getAllUser(int page, int size, String orderBy){
             Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
-            return userRepository.findAll();
+            return userRepository.findAll(pageable);
         }
 
     //GET /user/id ricerca per specifico id
@@ -48,14 +51,15 @@ public class UserService {
     //PUT /user/id - modifica uno user specifico
     public User findByIdAndUpdate(int id, User body){
             User user = this.findById(id);
+
             user.setUsername(body.getUsername());
             user.setName(body.getName());
             user.setLastName(body.getLastName());
             user.setEmail(body.getEmail());
             user.setAvatar(body.getAvatar());
+            user.setDispositivo(body.getDispositivo());
             return userRepository.save(user);
     }
-
 
     //DELETE /user/id - cancella uno user specifido dal suo id
     public void findByIdAndDelete(int id){
