@@ -6,6 +6,7 @@ import fabiomarras.u5w2d5.payloads.NewUserRequestDTO;
 import fabiomarras.u5w2d5.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class UserController {
     }
 
     @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
     public User saveNewUser(@RequestBody @Validated NewUserRequestDTO body, BindingResult validation) throws IOException{
         if (validation.hasErrors()) {
             throw new BadRequestException(validation.getAllErrors());
@@ -41,8 +43,12 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User findByIdAndUpdate(@PathVariable int id, @RequestBody User body){
-        return userService.findByIdAndUpdate(id, body);
+    public User findByIdAndUpdate(@PathVariable int id, @RequestBody @Validated NewUserRequestDTO body, BindingResult validation) throws IOException {
+        if (validation.hasErrors()) {
+            throw new BadRequestException(validation.getAllErrors());
+        } else {
+            return userService.findByIdAndUpdate(id, body);
+        }
     }
 
     @DeleteMapping("/{id}")

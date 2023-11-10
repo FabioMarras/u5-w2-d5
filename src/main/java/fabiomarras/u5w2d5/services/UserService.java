@@ -57,15 +57,15 @@ public class UserService {
     }
 
     //PUT /user/id - modifica uno user specifico
-    public User findByIdAndUpdate(int id, User body){
+    public User findByIdAndUpdate(int id,@RequestBody NewUserRequestDTO body){
             User user = this.findById(id);
 
-            user.setUsername(body.getUsername());
-            user.setName(body.getName());
-            user.setLastName(body.getLastName());
-            user.setEmail(body.getEmail());
-            user.setAvatar(body.getAvatar());
-            user.setDispositivo(body.getDispositivo());
+            user.setUsername(body.username());
+            user.setName(body.name());
+            user.setLastName(body.lastName());
+            user.setEmail(body.email());
+            user.setAvatar(body.avatar());
+            user.setDispositivo(body.dispositivo());
             return userRepository.save(user);
     }
 

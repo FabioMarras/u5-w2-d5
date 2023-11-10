@@ -6,6 +6,7 @@ import fabiomarras.u5w2d5.payloads.NewDispositivoRequestDTO;
 import fabiomarras.u5w2d5.services.DispositivoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ public class DispositiviController {
     }
 
     @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
     public Dispositivo saveNewDispositivo(@RequestBody @Validated NewDispositivoRequestDTO body, BindingResult validation) throws IOException {
         if (validation.hasErrors()) {
             throw new BadRequestException(validation.getAllErrors());
