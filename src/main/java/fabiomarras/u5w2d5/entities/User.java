@@ -22,7 +22,8 @@ public class User {
     private String name;
     private String lastName;
     private String email;
+    private String avatar;
 
     @OneToMany(mappedBy = "user")
-    private List<Dispositivi> dispositivi;
+    private List<Dispositivo> dispositivo;
 }

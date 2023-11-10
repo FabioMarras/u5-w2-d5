@@ -10,12 +10,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Dispositivi {
+public class Dispositivo {
     @Id
     @GeneratedValue
     private int id;
     private String type;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private StatusDispositivi statusDispositivi;
 
     @ManyToOne

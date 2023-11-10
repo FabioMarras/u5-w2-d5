@@ -1,5 +1,7 @@
 package fabiomarras.u5w2d5.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import fabiomarras.u5w2d5.entities.User;
 import fabiomarras.u5w2d5.exceptions.NotFoundException;
 import fabiomarras.u5w2d5.repositories.UserRepository;
@@ -8,7 +10,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -21,6 +25,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private Cloudinary cloudinary;
 
     //GET /user per avere una la lista degli user
         public List<User> getAllUser(int page, int size, String orderBy){
@@ -45,6 +52,7 @@ public class UserService {
             user.setName(body.getName());
             user.setLastName(body.getLastName());
             user.setEmail(body.getEmail());
+            user.setAvatar(body.getAvatar());
             return userRepository.save(user);
     }
 
@@ -56,6 +64,10 @@ public class UserService {
         }
     }
 
+    //UPLOAD DI IMMAGINI
+    public String uploadImage(MultipartFile file) throws IOException{
+            return (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+    }
 
 }
 
